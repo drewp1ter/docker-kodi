@@ -1,11 +1,9 @@
 FROM ubuntu:24.04 AS builder
 
-# Install build dependencies
 RUN apt-get update && apt-get install -y \
-    ccache \
-    gzip \
     git \
-    software-properties-common \
+    gzip \
+    debhelper \ 
     autoconf \ 
     automake \ 
     autopoint \ 
@@ -14,12 +12,12 @@ RUN apt-get update && apt-get install -y \
     cmake \ 
     curl \ 
     default-jre \ 
+    doxygen \ 
     gawk \ 
-    gcc \
-    g++ \ 
-    cpp \ 
+    gcc \ 
     gdc \ 
     gperf \ 
+    libasound2-dev \ 
     libass-dev \ 
     libavahi-client-dev \ 
     libavahi-common-dev \ 
@@ -27,42 +25,37 @@ RUN apt-get update && apt-get install -y \
     libbluray-dev \ 
     libbz2-dev \ 
     libcdio-dev \ 
-    libcec-dev \ 
     libp8-platform-dev \ 
     libcrossguid-dev \ 
-    libcurl4-gnutls-dev \ 
+    libcurl4-openssl-dev \ 
     libcwiid-dev \ 
     libdbus-1-dev \ 
+    libdrm-dev \ 
     libegl1-mesa-dev \ 
     libenca-dev \ 
     libflac-dev \ 
-    libfontconfig-dev \ 
     libfmt-dev \ 
+    libfontconfig-dev \ 
     libfreetype6-dev \ 
     libfribidi-dev \ 
     libfstrcmp-dev \ 
     libgcrypt-dev \ 
     libgif-dev \ 
-    libgles2-mesa-dev \
-    libgl1-mesa-dev \ 
-    libgl-dev \ 
-    libglew-dev \ 
-    libglu1-mesa-dev \
-    libglu-dev \  
+    libgles2-mesa-dev \ 
+    libgl1-amber-dev \ 
+    libglu1-mesa-dev \ 
     libgnutls28-dev \ 
     libgpg-error-dev \ 
     libgtest-dev \ 
     libiso9660-dev \ 
     libjpeg-dev \ 
     liblcms2-dev \ 
-    liblirc-dev \ 
     libltdl-dev \ 
     liblzo2-dev \ 
     libmicrohttpd-dev \ 
     libmysqlclient-dev \ 
     libnfs-dev \ 
     libogg-dev \ 
-    libomxil-bellagio-dev \ 
     libpcre3-dev \ 
     libplist-dev \ 
     libpng-dev \ 
@@ -73,7 +66,7 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev \ 
     libssl-dev \ 
     libtag1-dev \ 
-    libtiff-dev \ 
+    libtiff5-dev \ 
     libtinyxml-dev \ 
     libtinyxml2-dev \ 
     libtool \ 
@@ -82,29 +75,28 @@ RUN apt-get update && apt-get install -y \
     libva-dev \ 
     libvdpau-dev \ 
     libvorbis-dev \ 
-    libxkbcommon-dev \ 
     libxmu-dev \ 
     libxrandr-dev \ 
-    libxslt-dev \ 
+    libxslt1-dev \ 
     libxt-dev \ 
-    wipe \ 
     lsb-release \ 
     meson \ 
     nasm \ 
     ninja-build \ 
     python3-dev \ 
     python3-pil \ 
-    python3-minimal \ 
+    python3-pip \ 
     rapidjson-dev \ 
     swig \ 
     unzip \ 
     uuid-dev \ 
     zip \ 
     zlib1g-dev \
-    libdrm-dev \
-    libdisplay-info-dev \
-    libgbm-dev \
-    libinput-dev
+    libcec-dev \
+    libfmt-dev \
+    liblirc-dev \
+    libcap-dev \
+    libsndio-dev 
 
 WORKDIR /kodi
 
@@ -130,8 +122,6 @@ COPY --from=builder \
   ./
 
 RUN apt-get install -y ./*.deb && rm -rf *.deb
-
-RUN echo "allowed_users=anybody\nneeds_root_rights=yes" > /etc/X11/Xwrapper.config
 
 WORKDIR /home/ubuntu
 
