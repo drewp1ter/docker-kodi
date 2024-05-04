@@ -42,7 +42,6 @@ RUN apt-get update && apt-get install -y \
     libgcrypt-dev \ 
     libgif-dev \ 
     libgles2-mesa-dev \ 
-    libgl1-amber-dev \ 
     libglu1-mesa-dev \ 
     libgnutls28-dev \ 
     libgpg-error-dev \ 
@@ -100,7 +99,7 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /kodi
 
-RUN git clone https://github.com/xbmc/xbmc.git
+RUN git clone -b Omega https://github.com/xbmc/xbmc.git
 
 COPY build.sh /usr/local/bin
 
@@ -110,7 +109,7 @@ RUN build.sh
 
 FROM ubuntu:24.04 AS runner
 
-RUN apt-get update && apt-get install -y dumb-init ca-certificates
+RUN apt-get update && apt-get install -y dumb-init ca-certificates libgl1-amber-dri
 
 WORKDIR /tmp
 
